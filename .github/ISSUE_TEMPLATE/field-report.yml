@@ -1,0 +1,26 @@
+name: Field report
+description: You used Divan on a real project — tell us what happened.
+labels: ["field-report"]
+body:
+  - type: input
+    id: project
+    attributes:
+      label: Project type
+      description: Web / mobile / extension / backend, stack, rough size. A link if it is public.
+    validations:
+      required: true
+  - type: textarea
+    id: conflicts
+    attributes:
+      label: Conflict table
+      description: What did divan-adapt (or you) find that conflicted with the generic kit?
+  - type: textarea
+    id: loop
+    attributes:
+      label: Feature loop
+      description: Which feature did you run? Where did it break, and at which gate?
+  - type: textarea
+    id: changes
+    attributes:
+      label: What you changed
+      description: Edits to agents, skills or the hook — and why.

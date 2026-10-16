@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git tag:*)",
+      "Bash(gh release:*)",
+      "Bash(rm -rf:*)",
+      "Bash(pkill:*)",
+      "Bash(killall:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(eas submit:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(//**/*.jks)",
+      "Read(//**/*.keystore)",
+      "Read(//**/*.p12)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/quality-gate.sh",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  }
+}
