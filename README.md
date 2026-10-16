@@ -1,8 +1,24 @@
-# Divan
+<p align="center">
+  <img src="assets/banner.svg" alt="Divan — a product team of AI agents, built around one human who decides" width="100%">
+</p>
 
-**A product team of AI agents for software projects — built around one human who decides.**
+<p align="center">
+  <b>English</b> · <a href="README.fa.md">فارسی</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文</a>
+</p>
 
-[فارسی](README.fa.md) · [The method](docs/method.md) · [Adapting to an existing repo](docs/adapting.md) · [Case study](docs/case-studies/taghvim.md)
+<p align="center">
+  <img src="https://img.shields.io/badge/version-0.1.0-3B82F6" alt="version 0.1.0">
+  <img src="https://img.shields.io/badge/status-early-EAB308" alt="status: early">
+  <img src="https://img.shields.io/badge/licence-MIT-22C55E" alt="MIT licence">
+  <img src="https://img.shields.io/badge/for-Claude%20Code-6366F1" alt="for Claude Code">
+</p>
+
+<p align="center">
+  <a href="docs/method.md">The method</a> ·
+  <a href="docs/adapting.md">Adapting to an existing repo</a> ·
+  <a href="docs/case-studies/taghvim.md">Case study</a> ·
+  <a href="#about-the-author">About the author</a>
+</p>
 
 > **Status: early (v0.1).** Divan has been installed and adapted on one live product
 > ([case study](docs/case-studies/taghvim.md)). A full feature loop — idea to release — has **not** yet
@@ -20,20 +36,21 @@ nobody told it about, or pushes straight to production.
 Human teams solved this long ago with **separate roles and approval points**. Divan brings that
 structure to agents.
 
-## What Divan is
+## The team
 
-A drop-in kit for [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) that turns a
-repository into an organisation:
+<p align="center">
+  <img src="assets/team.svg" alt="The owner above seven specialised agents" width="100%">
+</p>
 
-| Agent | Human equivalent | Edits code? |
-|---|---|---|
-| `spec-writer` | Product manager — Feature Definition | No |
-| `architect` | Tech lead — design, three variants, task breakdown | No |
-| `builder` | Full-stack and mobile developer, one task at a time | Yes |
-| `reviewer` | Senior engineer and QA — **independent** of the builder | No |
-| `security-checker` | Security and privacy — checks your public promises | No |
-| `feature-engineer` | ML engineer — model input features, **only if you have a model** | ML folder only |
-| `release-docs` | DevOps and technical writer — prepares, never deploys | Docs only |
+| | Agent | Human equivalent | Edits code? |
+|:-:|---|---|---|
+| <img src="assets/icons/spec-writer.svg" width="28" alt=""> | `spec-writer` | Product manager — Feature Definition | No |
+| <img src="assets/icons/architect.svg" width="28" alt=""> | `architect` | Tech lead — design, three variants, task breakdown | No |
+| <img src="assets/icons/builder.svg" width="28" alt=""> | `builder` | Full-stack and mobile developer, one task at a time | Yes |
+| <img src="assets/icons/reviewer.svg" width="28" alt=""> | `reviewer` | Senior engineer and QA — **independent** of the builder | No |
+| <img src="assets/icons/security-checker.svg" width="28" alt=""> | `security-checker` | Security and privacy — checks your public promises | No |
+| <img src="assets/icons/feature-engineer.svg" width="28" alt=""> | `feature-engineer` | ML engineer — model input features, **only if you have a model** | ML folder only |
+| <img src="assets/icons/release-docs.svg" width="28" alt=""> | `release-docs` | DevOps and technical writer — prepares, never deploys | Docs only |
 
 Plus:
 - **`feature-loop`** — the process that connects them, with **three gates** where you decide.
@@ -44,15 +61,13 @@ Plus:
 
 ## The loop
 
-```
-Idea ─► spec-writer ─► GATE A (you approve scope)
-     ─► architect   ─► GATE B (you approve design, pick a variant)
-     ─► builder × tasks ─► reviewer ⟲ (max 3 rounds) ─► security-checker
-     ─► release-docs ─► GATE C (you merge, deploy, publish)
-     ─► after release: success signal vs target → keep / iterate / remove
-```
+<p align="center">
+  <img src="assets/loop.svg" alt="The feature loop: spec-writer, gate A, architect, gate B, builder, reviewer, security-checker, release-docs, gate C, released, signal versus target" width="100%">
+</p>
 
-Agents execute. **You** decide what to build, what to cut, and when it is good enough.
+- **Gate A — scope.** You approve the feature card, including what was cut.
+- **Gate B — design.** You approve the approach and pick one of three variants.
+- **Gate C — release.** You merge, deploy and publish. Agents never do.
 
 ## Install
 
@@ -118,10 +133,9 @@ kit/                        what gets copied into your project
   .claude/settings.json     hook + deny rules
   docs/templates/           feature card, review, decision record
   docs/product/             requirements traceability table
-docs/
-  method.md                 why the team is shaped this way
-  adapting.md               bringing Divan into an existing repo
-  case-studies/taghvim.md   the first real adaptation
+docs/                       method, adapting guide, case study
+assets/                     logo, banner, diagrams, agent icons
+scripts/make_assets.py      rebuilds every image in assets/
 ```
 
 ## Contributing
@@ -129,9 +143,45 @@ docs/
 Real-world reports are the most valuable contribution: you installed Divan on a real project —
 what conflicted, what broke, what you changed. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Author and licence
+---
 
-Made by [Farjad Pourmohammad](https://github.com/farjadp). MIT licence — see [LICENSE](LICENSE).
+## About the author
+
+<img src="assets/logo.svg" width="72" align="left" alt="" style="margin-right:16px">
+
+**Farjad Pourmohammad** is an AI strategist, startup mentor and builder based in Toronto, Canada.
+He has spent more than twenty years building technology companies in Iran and Canada — founding and
+running a software company, leading engineering teams as a CTO, and building products of his own,
+including [Taghvim](https://taghv.im), an open-source Persian calendar for the web, browsers and phones.
+Today he mentors early-stage founders and helps businesses decide where AI actually earns its place.
+Divan comes from that work: the discipline he asks of founders — define the problem, cut the scope,
+measure the result — applied to a team of AI agents.
+
+*From complexity, to clarity, to action.*
+
+### Services
+
+| | Service | What it is |
+|:-:|---|---|
+| 🧭 | **AI strategy** | Where AI earns its place in your business — then designing, building and securing it. |
+| 🚀 | **Startup mentorship — The Founder Lab** | A free 8-week programme for five teams: customer discovery and lean validation, before you build. |
+| 🤝 | **Founder advisory & coaching** | One-to-one sessions: a sparring partner for the decisions only you can make. |
+| 🛠️ | **Web, app & AI product development** | Through AshaVid: websites, browser extensions, Android and iPhone apps, widgets and automation. |
+| 🔤 | **Persian & right-to-left products** | Correct RTL layout, fonts, Persian digits and Solar Hijri dates, for products with Persian-speaking users. |
+
+**Start small:** a free diagnostic call or a ten-minute self-assessment on the website.
+
+🌐 **[farjadp.info](https://farjadp.info)** ·
+💼 [LinkedIn](https://www.linkedin.com/in/farjadpourmohammad) ·
+▶️ [YouTube @FarjadTalks](https://www.youtube.com/@FarjadTalks) ·
+🐙 [GitHub @farjadp](https://github.com/farjadp)
+
+---
+
+## Licence
+
+MIT — see [LICENSE](LICENSE). Agent glyphs are from [Lucide](https://lucide.dev) (ISC) — see
+[assets/NOTICE-lucide.txt](assets/NOTICE-lucide.txt).
 
 Divan is an independent project. It is not affiliated with or endorsed by Anthropic.
 "Claude" and "Claude Code" are trademarks of Anthropic.

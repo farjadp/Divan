@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 — 2026-10-15
+
+- README in four languages: English, Persian (فارسی), Arabic (العربية) and Simplified Chinese (中文).
+- Visual identity: logo, banner, team chart, feature-loop diagram and an icon for each agent
+  (`assets/`), rebuilt by `scripts/make_assets.py`. Agent glyphs from Lucide (ISC), credited in
+  `assets/NOTICE-lucide.txt`.
+- About the author and services, in every language.
+
 ## 0.1.0 — 2026-10-15
 
 First public version.
