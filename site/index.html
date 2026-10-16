@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Divan — a product team of AI agents</title>
+<meta name="description" content="Divan: a product team of AI agents for Claude Code — seven specialised roles, three human approval gates, one owner who decides.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta property="og:title" content="Divan — a product team of AI agents">
+<meta property="og:description" content="Seven specialised roles, three human approval gates, one owner who decides.">
+<meta property="og:image" content="https://farjadp.github.io/Divan/assets/banner.svg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Vazirmatn:wght@400;600;800&family=Noto+Sans+SC:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F172A; --navy2: #1E293B; --ink: #0F172A; --muted: #475569; --line: #E2E8F0;
+    --paper: #F8FAFC; --card: #FFFFFF; --gold: #EAB308; --blue: #3B82F6; --green: #22C55E;
+    --font-latin: Inter, system-ui, sans-serif; --font-rtl: Vazirmatn, Inter, system-ui, sans-serif;
+    --font-cjk: "Noto Sans SC", Inter, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --ink: #F1F5F9; --muted: #94A3B8; --line: #1E293B; --paper: #0B1220; --card: #111A2E; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-latin); line-height: 1.6; }
+  html[dir="rtl"] body { font-family: var(--font-rtl); }
+  html[lang="zh-CN"] body { font-family: var(--font-cjk); }
+  a { color: var(--blue); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  nav.lang { display: flex; gap: 6px; flex-wrap: wrap; }
+  nav.lang button { border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 6px 12px; border-radius: 999px; cursor: pointer; font: inherit; font-size: .9rem; }
+  nav.lang button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .hero { padding: 24px 0 8px; }
+  .hero img { width: 100%; height: auto; border-radius: 20px; display: block; }
+  .status { margin: 20px 0 0; padding: 14px 18px; border-radius: 14px; background: color-mix(in srgb, var(--gold) 18%, var(--card)); border: 1px solid color-mix(in srgb, var(--gold) 50%, var(--line)); font-size: .95rem; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0 8px; }
+  .btn { display: inline-block; padding: 12px 20px; border-radius: 12px; font-weight: 600; text-decoration: none; }
+  .btn.primary { background: var(--navy); color: #fff; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ink); background: var(--card); }
+  section { padding: 40px 0 8px; }
+  h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.15; margin: 16px 0 8px; font-weight: 800; }
+  h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0 0 12px; font-weight: 800; }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 720px; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .card .ic { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .card .ic img { width: 40px; height: 40px; border-radius: 10px; }
+  .card code { font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .95rem; }
+  .card .role { color: var(--muted); font-size: .9rem; }
+  .card .edits { margin-top: 8px; font-size: .85rem; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+  .badge.yes { background: color-mix(in srgb, var(--green) 20%, var(--card)); color: #15803D; }
+  .badge.no { background: color-mix(in srgb, var(--muted) 15%, var(--card)); color: var(--muted); }
+  figure { margin: 18px 0 0; }
+  figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); display: block; background: #F8FAFC; }
+  ol.gates, ul.plain { padding-inline-start: 22px; }
+  ol.gates li, ul.plain li { margin: 8px 0; }
+  pre { background: var(--navy); color: #E2E8F0; padding: 16px 18px; border-radius: 14px; overflow-x: auto; font-size: .95rem; direction: ltr; text-align: left; }
+  .facts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 18px; }
+  .facts .card b { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+  .about { display: grid; gap: 24px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 800px) { .about { grid-template-columns: 1.3fr 1fr; } }
+  .services .card { padding: 14px 16px; }
+  .services .card b { display: block; }
+  .links a { margin-inline-end: 14px; white-space: nowrap; }
+  footer { padding: 40px 0 48px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 40px; }
+  [hidden] { display: none !important; }
+  .tagline { font-style: italic; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#"><img src="assets/logo.svg" alt="">Divan</a>
+    <nav class="lang" aria-label="Language">
+      <button type="button" data-lang="en" lang="en">English</button>
+      <button type="button" data-lang="fa" lang="fa">فارسی</button>
+      <button type="button" data-lang="ar" lang="ar">العربية</button>
+      <button type="button" data-lang="zh-CN" lang="zh-CN">中文</button>
+    </nav>
+  </header>
+
+  <!-- ============================ ENGLISH ============================ -->
+  <main data-lang-block="en" lang="en" dir="ltr">
+    <div class="hero"><img src="assets/banner.svg" alt="Divan — a product team of AI agents, built around one human who decides"></div>
+    <h1>A product team of AI agents —<br>built around one human who decides.</h1>
+    <p class="lead">A drop-in kit for Claude Code: seven specialised roles, three approval gates, and an owner who decides what to build, what to cut, and when it is good enough.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/farjadp/Divan">View on GitHub</a>
+      <a class="btn ghost" href="#install">Install</a>
+      <a class="btn ghost" href="https://github.com/farjadp/Divan/blob/main/docs/method.md">The method</a>
+    </div>
+    <p class="status"><b>Status: early (v0.1).</b> Divan has been installed and adapted on one live product (<a href="https://github.com/farjadp/Divan/blob/main/docs/case-studies/taghvim.md">case study</a>). A full feature loop — idea to release — has not yet been run end to end. Results, including failures, will be published when it has.</p>
+
+    <section>
+      <h2>The problem</h2>
+      <p class="lead">AI coding agents are fast. Speed is not the problem. The problem is that a single agent asked to "build the feature" acts as product manager, architect, developer and reviewer at once — and grades its own work. Human teams solved this long ago with separate roles and approval points. Divan brings that structure to agents.</p>
+    </section>
+
+    <section>
+      <h2>The team</h2>
+      <figure><img src="assets/team.svg" alt="The owner above seven specialised agents"></figure>
+      <div class="grid">
+        <div class="card"><div class="ic"><img src="assets/icons/spec-writer.svg" alt=""><code>spec-writer</code></div><div class="role">Product manager — Feature Definition</div><div class="edits"><span class="badge no">does not edit code</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/architect.svg" alt=""><code>architect</code></div><div class="role">Tech lead — design, three variants, task breakdown</div><div class="edits"><span class="badge no">does not edit code</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/builder.svg" alt=""><code>builder</code></div><div class="role">Full-stack and mobile developer, one task at a time</div><div class="edits"><span class="badge yes">edits code</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/reviewer.svg" alt=""><code>reviewer</code></div><div class="role">Senior engineer and QA — independent of the builder</div><div class="edits"><span class="badge no">reports only</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/security-checker.svg" alt=""><code>security-checker</code></div><div class="role">Security and privacy — checks your public promises</div><div class="edits"><span class="badge no">reports only</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/feature-engineer.svg" alt=""><code>feature-engineer</code></div><div class="role">ML engineer — model input features, only if you have a model</div><div class="edits"><span class="badge yes">ML folder only</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/release-docs.svg" alt=""><code>release-docs</code></div><div class="role">DevOps and technical writer — prepares, never deploys</div><div class="edits"><span class="badge no">docs only</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The loop</h2>
+      <figure><img src="assets/loop.svg" alt="The feature loop with three owner gates"></figure>
+      <ol class="gates">
+        <li><b>Gate A — scope.</b> You approve the feature card, including what was cut.</li>
+        <li><b>Gate B — design.</b> You approve the approach and pick one of three variants.</li>
+        <li><b>Gate C — release.</b> You merge, deploy and publish. Agents never do.</li>
+      </ol>
+    </section>
+
+    <section id="install">
+      <h2>Install</h2>
+<pre><code>git clone --depth 1 https://github.com/farjadp/divan.git
+./divan/install.sh /path/to/your/project</code></pre>
+      <p>The installer never overwrites a file. Then fill in <code>CLAUDE.md</code>, open the project in Claude Code, and say: <i>"adapt Divan to this repo"</i> for an existing project, or <i>"run the feature loop for: &lt;one small, real feature&gt;"</i>.</p>
+    </section>
+
+    <section>
+      <h2>Three facts every agent must know</h2>
+      <p class="lead">Most agent-team failures are not coding mistakes. They are an agent breaking one of these, because nobody wrote it down.</p>
+      <div class="facts">
+        <div class="card"><b>1. What triggers a production deploy?</b> If pushing to <code>main</code> deploys, an agent pushing is a release.</div>
+        <div class="card"><b>2. What is the tracking policy?</b> It decides how success can be measured. Divan never adds tracking to a product that promises none.</div>
+        <div class="card"><b>3. What does the product publicly promise?</b> The security agent checks every change against each promise by name.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why "Divan"?</h2>
+      <p class="lead">In historical Persian government, the <i>divan</i> was the administration: specialised departments — correspondence, finance, the army register — each doing one job well, all answering to one decision-maker. That is the shape of this team.</p>
+    </section>
+
+    <section id="about">
+      <h2>About the author</h2>
+      <div class="about">
+        <div>
+          <p><b>Farjad Pourmohammad</b> is an AI strategist, startup mentor and builder based in Toronto, Canada. He has spent more than twenty years building technology companies in Iran and Canada — founding and running a software company, leading engineering teams as a CTO, and building products of his own, including <a href="https://taghv.im">Taghvim</a>, an open-source Persian calendar for the web, browsers and phones. Today he mentors early-stage founders and helps businesses decide where AI actually earns its place. Divan comes from that work: the discipline he asks of founders — define the problem, cut the scope, measure the result — applied to a team of AI agents.</p>
+          <p class="tagline">From complexity, to clarity, to action.</p>
+          <p class="links">🌐 <a href="https://farjadp.info"><b>farjadp.info</b></a> 💼 <a href="https://www.linkedin.com/in/farjadpourmohammad">LinkedIn</a> ▶️ <a href="https://www.youtube.com/@FarjadTalks">YouTube</a> 🐙 <a href="https://github.com/farjadp">GitHub</a></p>
+        </div>
+        <div class="services grid" style="margin-top:0">
+          <div class="card">🧭 <b>AI strategy</b> Where AI earns its place in your business — then designing, building and securing it.</div>
+          <div class="card">🚀 <b>Startup mentorship — The Founder Lab</b> A free 8-week programme for five teams: customer discovery and lean validation, before you build.</div>
+          <div class="card">🤝 <b>Founder advisory &amp; coaching</b> One-to-one sessions for the decisions only you can make.</div>
+          <div class="card">🛠️ <b>Web, app &amp; AI product development</b> Through AshaVid: websites, browser extensions, Android and iPhone apps, widgets and automation.</div>
+          <div class="card">🔤 <b>Persian &amp; right-to-left products</b> Correct RTL layout, fonts, Persian digits and Solar Hijri dates.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ PERSIAN ============================ -->
+  <main data-lang-block="fa" lang="fa" dir="rtl" hidden>
+    <div class="hero"><img src="assets/banner.svg" alt="دیوان — تیم محصول از ایجنت‌های هوش مصنوعی"></div>
+    <h1>یک تیم محصول از ایجنت‌های هوش مصنوعی —<br>ساخته‌شده حول یک انسان که تصمیم می‌گیرد.</h1>
+    <p class="lead">کیتی آماده برای Claude Code: هفت نقش تخصصی، سه دروازهٔ تأیید، و یک مالک که تصمیم می‌گیرد چه ساخته شود، چه حذف شود و کی «به اندازهٔ کافی خوب» است.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/farjadp/Divan">مشاهده در گیت‌هاب</a>
+      <a class="btn ghost" href="#install-fa">نصب</a>
+      <a class="btn ghost" href="https://github.com/farjadp/Divan/blob/main/README.fa.md">راهنمای فارسی</a>
+    </div>
+    <p class="status"><b>وضعیت: مراحل اولیه (نسخهٔ ۰٫۱).</b> دیوان روی یک محصول زنده نصب و تطبیق داده شده است. یک چرخهٔ کامل، از ایده تا انتشار، هنوز اجرا نشده. وقتی اجرا شد، نتیجه‌اش، از جمله شکست‌ها، منتشر می‌شود.</p>
+
+    <section>
+      <h2>مسئله</h2>
+      <p class="lead">ایجنت‌های کدنویس سریع‌اند. مشکل سرعت نیست. مشکل این است که وقتی به یک ایجنت می‌گویی «این فیچر را بساز»، هم‌زمان مدیر محصول، معمار، برنامه‌نویس و بازبین می‌شود و کار خودش را خودش نمره می‌دهد. تیم‌های انسانی این مشکل را با نقش‌های جدا و نقطه‌های تأیید حل کرده‌اند. دیوان همین ساختار را برای ایجنت‌ها می‌آورد.</p>
+    </section>
+
+    <section>
+      <h2>تیم</h2>
+      <figure><img src="assets/team.svg" alt="مالک بالای هفت ایجنت تخصصی"></figure>
+      <div class="grid">
+        <div class="card"><div class="ic"><img src="assets/icons/spec-writer.svg" alt=""><code>spec-writer</code></div><div class="role">مدیر محصول — تعریف فیچر</div><div class="edits"><span class="badge no">کد نمی‌نویسد</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/architect.svg" alt=""><code>architect</code></div><div class="role">مدیر فنی — طراحی، سه نسخهٔ پیشنهادی، شکستن کار</div><div class="edits"><span class="badge no">کد نمی‌نویسد</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/builder.svg" alt=""><code>builder</code></div><div class="role">برنامه‌نویس فول‌استک و موبایل، هر بار یک تسک</div><div class="edits"><span class="badge yes">کد می‌نویسد</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/reviewer.svg" alt=""><code>reviewer</code></div><div class="role">مهندس ارشد و QA — مستقل از سازنده</div><div class="edits"><span class="badge no">فقط گزارش</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/security-checker.svg" alt=""><code>security-checker</code></div><div class="role">امنیت و حریم خصوصی — قول‌های عمومی محصول را چک می‌کند</div><div class="edits"><span class="badge no">فقط گزارش</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/feature-engineer.svg" alt=""><code>feature-engineer</code></div><div class="role">مهندس یادگیری ماشین — فقط اگر محصول مدل دارد</div><div class="edits"><span class="badge yes">فقط پوشهٔ ML</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/release-docs.svg" alt=""><code>release-docs</code></div><div class="role">DevOps و مستندساز — آماده می‌کند، هرگز منتشر نمی‌کند</div><div class="edits"><span class="badge no">فقط مستندات</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>چرخهٔ کار</h2>
+      <figure><img src="assets/loop.svg" alt="چرخهٔ فیچر با سه دروازهٔ تأیید"></figure>
+      <ol class="gates">
+        <li><b>دروازهٔ A — محدوده.</b> تو کارت فیچر را تأیید می‌کنی، از جمله چیزهایی که حذف شده.</li>
+        <li><b>دروازهٔ B — طراحی.</b> تو روش را تأیید می‌کنی و یکی از سه نسخه را انتخاب می‌کنی.</li>
+        <li><b>دروازهٔ C — انتشار.</b> تو merge، deploy و منتشر می‌کنی. ایجنت‌ها هرگز.</li>
+      </ol>
+    </section>
+
+    <section id="install-fa">
+      <h2>نصب</h2>
+<pre><code>git clone --depth 1 https://github.com/farjadp/divan.git
+./divan/install.sh /path/to/your/project</code></pre>
+      <p>نصب‌کننده هیچ فایلی را بازنویسی نمی‌کند. بعد <code>CLAUDE.md</code> را پر کن، پروژه را در Claude Code باز کن و بگو: <i>«adapt Divan to this repo»</i> برای پروژهٔ موجود، یا <i>«run the feature loop for: یک فیچر کوچک و واقعی»</i>.</p>
+    </section>
+
+    <section>
+      <h2>سه واقعیتی که هر ایجنت باید بداند</h2>
+      <p class="lead">بیشتر شکست‌های تیم‌های ایجنتی اشتباه کدنویسی نیستند. ایجنتی یکی از این سه را شکسته، چون کسی آن را ننوشته بود.</p>
+      <div class="facts">
+        <div class="card"><b>۱. چه چیزی باعث انتشار می‌شود؟</b> اگر push روی <code>main</code> یعنی انتشار، پس push کردن ایجنت یعنی انتشار.</div>
+        <div class="card"><b>۲. سیاست ردیابی چیست؟</b> این تعیین می‌کند موفقیت چطور سنجیده شود. دیوان هرگز به محصولی که قول «بدون ردیابی» داده، ردیاب اضافه نمی‌کند.</div>
+        <div class="card"><b>۳. محصول چه قول‌هایی داده است؟</b> ایجنت امنیت هر تغییر را با تک‌تک این قول‌ها چک می‌کند.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>چرا «دیوان»؟</h2>
+      <p class="lead">در حکومت‌های تاریخی ایران، «دیوان» همان دستگاه اداری بود: واحدهای تخصصی مثل دیوان رسائل، دیوان استیفا و دیوان عرض. هر واحد یک کار را خوب انجام می‌داد و همه به یک تصمیم‌گیرنده پاسخ می‌دادند. این تیم هم همین شکل را دارد.</p>
+    </section>
+
+    <section>
+      <h2>دربارهٔ سازنده</h2>
+      <div class="about">
+        <div>
+          <p><b>فرجاد پورمحمد</b> استراتژیست هوش مصنوعی، منتور استارتاپ و سازندهٔ محصول است و در تورنتوی کانادا زندگی می‌کند. او بیش از بیست سال است که در ایران و کانادا شرکت‌های فناوری می‌سازد: یک شرکت نرم‌افزاری را بنیان گذاشت و سال‌ها اداره کرد، به‌عنوان مدیر فنی تیم‌های مهندسی را رهبری کرد، و محصولات خودش را ساخت؛ از جمله <a href="https://taghv.im">تقویم</a>، یک تقویم فارسی متن‌باز برای وب، مرورگر و موبایل. امروز به بنیان‌گذاران استارتاپ‌های نوپا منتورینگ می‌دهد و به کسب‌وکارها کمک می‌کند بفهمند هوش مصنوعی واقعاً کجای کارشان جا دارد. دیوان از دل همین کار آمده است.</p>
+          <p class="tagline">از پیچیدگی، به وضوح، به عمل.</p>
+          <p class="links">🌐 <a href="https://farjadp.info"><b>farjadp.info</b></a> 💼 <a href="https://www.linkedin.com/in/farjadpourmohammad">لینکدین</a> ▶️ <a href="https://www.youtube.com/@FarjadTalks">یوتیوب</a> 🐙 <a href="https://github.com/farjadp">گیت‌هاب</a></p>
+        </div>
+        <div class="services grid" style="margin-top:0">
+          <div class="card">🧭 <b>استراتژی هوش مصنوعی</b> هوش مصنوعی کجای کسب‌وکارت واقعاً ارزش می‌سازد؛ و بعد طراحی، ساخت و ایمن‌سازی آن.</div>
+          <div class="card">🚀 <b>منتورینگ استارتاپ — The Founder Lab</b> برنامهٔ رایگان هشت‌هفته‌ای برای پنج تیم: کشف مشتری و اعتبارسنجی ایده، پیش از ساختن.</div>
+          <div class="card">🤝 <b>مشاوره و کوچینگ بنیان‌گذاران</b> جلسه‌های یک‌به‌یک برای تصمیم‌هایی که فقط خودت می‌توانی بگیری.</div>
+          <div class="card">🛠️ <b>ساخت وب، اپلیکیشن و محصول هوش مصنوعی</b> از طریق AshaVid: سایت، افزونهٔ مرورگر، اپ اندروید و آیفون، ویجت و اتوماسیون.</div>
+          <div class="card">🔤 <b>محصولات فارسی و راست‌چین</b> راست‌چینی درست، قلم و نیم‌فاصله، اعداد فارسی و تاریخ شمسی.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ ARABIC ============================ -->
+  <main data-lang-block="ar" lang="ar" dir="rtl" hidden>
+    <div class="hero"><img src="assets/banner.svg" alt="ديوان — فريق منتج من وكلاء الذكاء الاصطناعي"></div>
+    <h1>فريق منتج من وكلاء الذكاء الاصطناعي —<br>مبنيّ حول إنسان واحد يتخذ القرار.</h1>
+    <p class="lead">حزمة جاهزة لـ Claude Code: سبعة أدوار متخصصة، ثلاث بوابات موافقة، ومالك واحد يقرر ما يُبنى وما يُحذف ومتى يكون العمل جيدًا بما يكفي.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/farjadp/Divan">عرض على GitHub</a>
+      <a class="btn ghost" href="#install-ar">التثبيت</a>
+      <a class="btn ghost" href="https://github.com/farjadp/Divan/blob/main/README.ar.md">الدليل بالعربية</a>
+    </div>
+    <p class="status"><b>الحالة: مرحلة مبكرة (الإصدار 0.1).</b> جرى تثبيت ديوان وتكييفه على منتج حيّ واحد. لم تُنفَّذ بعد دورة كاملة من الفكرة إلى الإطلاق. عند تنفيذها ستُنشر النتائج، بما في ذلك الإخفاقات.</p>
+
+    <section>
+      <h2>المشكلة</h2>
+      <p class="lead">وكلاء البرمجة سريعون، والسرعة ليست المشكلة. المشكلة أن الوكيل الواحد، حين يُطلب منه «ابنِ هذه الميزة»، يصبح مدير المنتج والمعماري والمطوّر والمراجِع في آنٍ واحد، ثم يقيّم عمله بنفسه. حلّت الفرق البشرية ذلك بأدوار منفصلة ونقاط موافقة. ديوان يجلب هذا الهيكل إلى الوكلاء.</p>
+    </section>
+
+    <section>
+      <h2>الفريق</h2>
+      <figure><img src="assets/team.svg" alt="المالك فوق سبعة وكلاء متخصصين"></figure>
+      <div class="grid">
+        <div class="card"><div class="ic"><img src="assets/icons/spec-writer.svg" alt=""><code>spec-writer</code></div><div class="role">مدير المنتج — تعريف الميزات</div><div class="edits"><span class="badge no">لا يعدّل الشيفرة</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/architect.svg" alt=""><code>architect</code></div><div class="role">القائد التقني — التصميم، ثلاثة بدائل، تقسيم العمل</div><div class="edits"><span class="badge no">لا يعدّل الشيفرة</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/builder.svg" alt=""><code>builder</code></div><div class="role">مطوّر متكامل وتطبيقات جوّال، مهمة واحدة في كل مرة</div><div class="edits"><span class="badge yes">يعدّل الشيفرة</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/reviewer.svg" alt=""><code>reviewer</code></div><div class="role">مهندس أول وضمان جودة — مستقل عن المطوّر</div><div class="edits"><span class="badge no">تقارير فقط</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/security-checker.svg" alt=""><code>security-checker</code></div><div class="role">الأمن والخصوصية — يتحقق من وعود المنتج العلنية</div><div class="edits"><span class="badge no">تقارير فقط</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/feature-engineer.svg" alt=""><code>feature-engineer</code></div><div class="role">مهندس تعلّم آلي — فقط إذا كان للمنتج نموذج</div><div class="edits"><span class="badge yes">مجلد التعلّم الآلي فقط</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/release-docs.svg" alt=""><code>release-docs</code></div><div class="role">DevOps وكاتب تقني — يُحضّر ولا يُطلق أبدًا</div><div class="edits"><span class="badge no">التوثيق فقط</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>الدورة</h2>
+      <figure><img src="assets/loop.svg" alt="دورة الميزة مع ثلاث بوابات موافقة"></figure>
+      <ol class="gates">
+        <li><b>البوابة A — النطاق.</b> توافق على بطاقة الميزة، بما في ذلك ما حُذف منها.</li>
+        <li><b>البوابة B — التصميم.</b> توافق على النهج وتختار أحد البدائل الثلاثة.</li>
+        <li><b>البوابة C — الإطلاق.</b> أنت من يدمج وينشر ويُطلق. الوكلاء لا يفعلون ذلك أبدًا.</li>
+      </ol>
+    </section>
+
+    <section id="install-ar">
+      <h2>التثبيت</h2>
+<pre><code>git clone --depth 1 https://github.com/farjadp/divan.git
+./divan/install.sh /path/to/your/project</code></pre>
+      <p>أداة التثبيت لا تستبدل أي ملف موجود. ثم املأ <code>CLAUDE.md</code>، وافتح المشروع في Claude Code، وقل: <i>«adapt Divan to this repo»</i> لمشروع قائم، أو <i>«run the feature loop for: ميزة صغيرة وحقيقية»</i>.</p>
+    </section>
+
+    <section>
+      <h2>ثلاث حقائق يجب أن يعرفها كل وكيل</h2>
+      <p class="lead">معظم إخفاقات فرق الوكلاء ليست أخطاء برمجية، بل وكيل كسر إحدى هذه الحقائق لأن أحدًا لم يكتبها.</p>
+      <div class="facts">
+        <div class="card"><b>1. ما الذي يُطلق النشر على الإنتاج؟</b> إذا كان الدفع إلى <code>main</code> يعني النشر، فإن دفع الوكيل يعني إطلاقًا.</div>
+        <div class="card"><b>2. ما سياسة التتبّع؟</b> هي التي تحدد كيف يُقاس النجاح. ديوان لا يضيف أي تتبّع إلى منتج وعد بعدم التتبّع.</div>
+        <div class="card"><b>3. ما الوعود العلنية للمنتج؟</b> يتحقق وكيل الأمن من كل تغيير مقابل كل وعد بالاسم.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>لماذا «ديوان»؟</h2>
+      <p class="lead">في الحكومات الفارسية التاريخية كان «الديوان» هو الجهاز الإداري: أقسام متخصصة كديوان الرسائل وديوان الاستيفاء وديوان العرض، يؤدي كل منها عملًا واحدًا بإتقان، وتعود جميعها إلى صاحب قرار واحد. هذا هو شكل هذا الفريق.</p>
+    </section>
+
+    <section>
+      <h2>عن المؤلف</h2>
+      <div class="about">
+        <div>
+          <p><b>فرجاد بورمحمد</b> استراتيجي في الذكاء الاصطناعي، ومرشد لريادة الأعمال، وصانع منتجات، يقيم في تورنتو بكندا. أمضى أكثر من عشرين عامًا في بناء شركات تقنية في إيران وكندا: أسّس شركة برمجيات وأدارها، وقاد فرقًا هندسية بصفته مديرًا تقنيًا، وبنى منتجاته الخاصة، ومنها <a href="https://taghv.im">تقويم</a>، وهو تقويم فارسي مفتوح المصدر للويب والمتصفحات والهواتف. يرشد اليوم مؤسسي الشركات الناشئة ويساعد الشركات على تحديد المواضع التي يضيف فيها الذكاء الاصطناعي قيمة حقيقية. وُلد ديوان من هذا العمل.</p>
+          <p class="tagline">من التعقيد، إلى الوضوح، إلى الفعل.</p>
+          <p class="links">🌐 <a href="https://farjadp.info"><b>farjadp.info</b></a> 💼 <a href="https://www.linkedin.com/in/farjadpourmohammad">لينكدإن</a> ▶️ <a href="https://www.youtube.com/@FarjadTalks">يوتيوب</a> 🐙 <a href="https://github.com/farjadp">غيت هب</a></p>
+        </div>
+        <div class="services grid" style="margin-top:0">
+          <div class="card">🧭 <b>استراتيجية الذكاء الاصطناعي</b> أين يضيف الذكاء الاصطناعي قيمة حقيقية في عملك، ثم تصميمه وبناؤه وتأمينه.</div>
+          <div class="card">🚀 <b>إرشاد الشركات الناشئة — The Founder Lab</b> برنامج مجاني مدته ثمانية أسابيع لخمسة فرق: اكتشاف العملاء والتحقق من الفكرة قبل البناء.</div>
+          <div class="card">🤝 <b>استشارات وتدريب للمؤسسين</b> جلسات فردية للقرارات التي لا يتخذها أحد غيرك.</div>
+          <div class="card">🛠️ <b>تطوير الويب والتطبيقات ومنتجات الذكاء الاصطناعي</b> عبر AshaVid: مواقع، وإضافات متصفح، وتطبيقات أندرويد وآيفون، وودجات، وأتمتة.</div>
+          <div class="card">🔤 <b>منتجات فارسية ومن اليمين إلى اليسار</b> تخطيط صحيح من اليمين إلى اليسار، وخطوط، وأرقام فارسية، وتاريخ هجري شمسي.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ CHINESE ============================ -->
+  <main data-lang-block="zh-CN" lang="zh-CN" dir="ltr" hidden>
+    <div class="hero"><img src="assets/banner.svg" alt="Divan——由 AI 智能体组成的产品团队"></div>
+    <h1>由 AI 智能体组成的产品团队——<br>围绕一位做决定的人而构建。</h1>
+    <p class="lead">为 Claude Code 打造的即装即用工具包：七个专业角色、三道审批关口，以及一位决定做什么、砍什么、何时足够好的负责人。</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/farjadp/Divan">在 GitHub 上查看</a>
+      <a class="btn ghost" href="#install-zh">安装</a>
+      <a class="btn ghost" href="https://github.com/farjadp/Divan/blob/main/README.zh-CN.md">中文说明</a>
+    </div>
+    <p class="status"><b>状态：早期（v0.1）。</b> Divan 已在一个线上产品中完成安装与适配。从想法到发布的完整功能循环尚未端到端运行过。运行之后，结果（包括失败之处）将公开发布。</p>
+
+    <section>
+      <h2>问题所在</h2>
+      <p class="lead">AI 编程智能体很快，速度不是问题。问题在于：当你让一个智能体"把这个功能做出来"时，它同时充当产品经理、架构师、开发者和评审者，还给自己的工作打分。人类团队早已通过职责分离和审批节点解决了这个问题。Divan 把同样的结构带给智能体。</p>
+    </section>
+
+    <section>
+      <h2>团队</h2>
+      <figure><img src="assets/team.svg" alt="负责人位于七个专业智能体之上"></figure>
+      <div class="grid">
+        <div class="card"><div class="ic"><img src="assets/icons/spec-writer.svg" alt=""><code>spec-writer</code></div><div class="role">产品经理——功能定义</div><div class="edits"><span class="badge no">不修改代码</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/architect.svg" alt=""><code>architect</code></div><div class="role">技术负责人——设计、三个备选方案、任务拆分</div><div class="edits"><span class="badge no">不修改代码</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/builder.svg" alt=""><code>builder</code></div><div class="role">全栈与移动端开发者，一次只做一个任务</div><div class="edits"><span class="badge yes">修改代码</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/reviewer.svg" alt=""><code>reviewer</code></div><div class="role">资深工程师与质量保证——独立于开发者</div><div class="edits"><span class="badge no">仅出报告</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/security-checker.svg" alt=""><code>security-checker</code></div><div class="role">安全与隐私——核查产品的公开承诺</div><div class="edits"><span class="badge no">仅出报告</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/feature-engineer.svg" alt=""><code>feature-engineer</code></div><div class="role">机器学习工程师——仅当产品包含模型时</div><div class="edits"><span class="badge yes">仅限 ML 目录</span></div></div>
+        <div class="card"><div class="ic"><img src="assets/icons/release-docs.svg" alt=""><code>release-docs</code></div><div class="role">DevOps 与技术文档——只做准备，从不发布</div><div class="edits"><span class="badge no">仅限文档</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>功能循环</h2>
+      <figure><img src="assets/loop.svg" alt="带有三道审批关口的功能循环"></figure>
+      <ol class="gates">
+        <li><b>关口 A——范围。</b> 你批准功能卡片，包括被砍掉的部分。</li>
+        <li><b>关口 B——设计。</b> 你批准方案，并从三个备选方案中选择一个。</li>
+        <li><b>关口 C——发布。</b> 由你合并、部署和发布。智能体从不做这些事。</li>
+      </ol>
+    </section>
+
+    <section id="install-zh">
+      <h2>安装</h2>
+<pre><code>git clone --depth 1 https://github.com/farjadp/divan.git
+./divan/install.sh /path/to/your/project</code></pre>
+      <p>安装脚本从不覆盖已有文件。然后填写 <code>CLAUDE.md</code>，在 Claude Code 中打开项目，对已有项目输入 <i>"adapt Divan to this repo"</i>，或输入 <i>"run the feature loop for: &lt;一个小而真实的功能&gt;"</i>。</p>
+    </section>
+
+    <section>
+      <h2>每个智能体都必须知道的三个事实</h2>
+      <p class="lead">智能体团队的失败大多不是编码错误，而是某个智能体违反了以下事实之一——因为没人把它写下来。</p>
+      <div class="facts">
+        <div class="card"><b>1. 什么会触发生产环境部署？</b> 如果推送到 <code>main</code> 就会部署，那么智能体推送就等于发布。</div>
+        <div class="card"><b>2. 追踪策略是什么？</b> 它决定了成功如何衡量。对于承诺不做追踪的产品，Divan 绝不添加任何追踪。</div>
+        <div class="card"><b>3. 产品做过哪些公开承诺？</b> 安全智能体会逐条按名称核查每一次改动。</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>为什么叫"Divan"？</h2>
+      <p class="lead">在历史上的波斯政府中，"迪万"指行政机构：由文书、财政、军籍等专业部门组成，每个部门把一件事做好，并共同向一位决策者负责。这正是这个团队的形态。</p>
+    </section>
+
+    <section>
+      <h2>关于作者</h2>
+      <div class="about">
+        <div>
+          <p><b>Farjad Pourmohammad</b> 是一位常驻加拿大多伦多的 AI 战略顾问、创业导师和产品构建者。二十多年来，他在伊朗和加拿大创办和建设科技公司：创立并经营过一家软件公司，以首席技术官身份带领过工程团队，也构建了自己的产品，其中包括 <a href="https://taghv.im">Taghvim</a>——一款覆盖网页、浏览器和手机的开源波斯历。如今，他为早期创业者提供指导，并帮助企业判断 AI 真正能在哪里创造价值。Divan 正源于这些工作。</p>
+          <p class="tagline">从复杂，到清晰，再到行动。</p>
+          <p class="links">🌐 <a href="https://farjadp.info"><b>farjadp.info</b></a> 💼 <a href="https://www.linkedin.com/in/farjadpourmohammad">LinkedIn</a> ▶️ <a href="https://www.youtube.com/@FarjadTalks">YouTube</a> 🐙 <a href="https://github.com/farjadp">GitHub</a></p>
+        </div>
+        <div class="services grid" style="margin-top:0">
+          <div class="card">🧭 <b>AI 战略</b> 找出 AI 在你的业务中真正能创造价值的地方，然后进行设计、构建与安全加固。</div>
+          <div class="card">🚀 <b>创业指导——The Founder Lab</b> 面向五个团队的免费八周项目：在动手构建之前完成客户发现与精益验证。</div>
+          <div class="card">🤝 <b>创始人咨询与教练</b> 一对一辅导，面向只有你才能做的决定。</div>
+          <div class="card">🛠️ <b>网站、应用与 AI 产品开发</b> 通过 AshaVid 提供：网站、浏览器扩展、Android 和 iPhone 应用、桌面小组件与自动化。</div>
+          <div class="card">🔤 <b>波斯语与从右到左（RTL）产品</b> 正确的 RTL 排版、字体、波斯数字与伊朗太阳历日期。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>MIT licence · Agent glyphs from <a href="https://lucide.dev">Lucide</a> (ISC) · <a href="https://github.com/farjadp/Divan">github.com/farjadp/Divan</a></p>
+    <p>Divan is an independent project. It is not affiliated with or endorsed by Anthropic. "Claude" and "Claude Code" are trademarks of Anthropic.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var blocks = document.querySelectorAll('[data-lang-block]');
+  var buttons = document.querySelectorAll('nav.lang button');
+  var supported = ['en', 'fa', 'ar', 'zh-CN'];
+  function show(lang) {
+    if (supported.indexOf(lang) < 0) lang = 'en';
+    blocks.forEach(function (b) { b.hidden = b.getAttribute('data-lang-block') !== lang; });
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    var active = document.querySelector('[data-lang-block="' + lang + '"]');
+    document.documentElement.lang = lang;
+    document.documentElement.dir = active.getAttribute('dir');
+    try { localStorage.setItem('divan-lang', lang); } catch (e) {}
+    if (history.replaceState) history.replaceState(null, '', lang === 'en' ? location.pathname : '?lang=' + lang);
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-lang')); }); });
+  var fromQuery = new URLSearchParams(location.search).get('lang');
+  var saved = null; try { saved = localStorage.getItem('divan-lang'); } catch (e) {}
+  var nav = (navigator.language || 'en');
+  var guess = nav.indexOf('fa') === 0 ? 'fa' : nav.indexOf('ar') === 0 ? 'ar' : nav.indexOf('zh') === 0 ? 'zh-CN' : 'en';
+  show(fromQuery || saved || guess);
+})();
+</script>
+</body>
+</html>
