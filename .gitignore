@@ -1,1 +1,5 @@
 site/assets/
+
+# built guide site (python3 scripts/build_site.py)
+site/
+/.claude/

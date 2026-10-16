@@ -1,0 +1,6 @@
+site/
+.git/
+.github/
+.claude/
+kit/
+scripts/make_assets.py
